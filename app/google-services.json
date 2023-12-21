@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "40800489724",
+    "project_id": "old-man-app-cc6ee",
+    "storage_bucket": "old-man-app-cc6ee.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:40800489724:android:67e39ea712ca3f6e0b8779",
+        "android_client_info": {
+          "package_name": "com.example.old_man"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2PB_QREu0u-wTR4hK5hO-QAuINepz_jE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
