@@ -1,8 +1,5 @@
 package com.example.old_man.community;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.old_man.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -53,24 +53,24 @@ public class SignupActivity extends AppCompatActivity {
                 user.setEmail(email);
                 user.setPass(pass);
                 user.setName(name);
-          auth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-              @Override
-              public void onComplete(@NonNull Task<AuthResult> task) {
-                  progressDialog.dismiss();
-                  if (task.isSuccessful()){
-                      database.collection("Users")
-                                      .document().set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                  @Override
-                                  public void onSuccess(Void unused) {
-                                    startActivity(new Intent(SignupActivity.this,LoginActivity.class));
-                                  }
-                              });
-                        Toast.makeText(SignupActivity.this,"Account is Created",Toast.LENGTH_SHORT).show();
-                  }else{
-                      Toast.makeText(SignupActivity.this,task.getException().getLocalizedMessage(),Toast.LENGTH_SHORT).show();
-                  }
-              }
-          });
+                auth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressDialog.dismiss();
+                        if (task.isSuccessful()){
+                            database.collection("Users")
+                                    .document().set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            startActivity(new Intent(SignupActivity.this,LoginActivity.class));
+                                        }
+                                    });
+                            Toast.makeText(SignupActivity.this,"Account is Created",Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(SignupActivity.this,task.getException().getLocalizedMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
         loginBtn.setOnClickListener(new View.OnClickListener() {

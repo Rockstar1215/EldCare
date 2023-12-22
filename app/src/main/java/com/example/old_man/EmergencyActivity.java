@@ -1,22 +1,22 @@
 package com.example.old_man;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,8 +25,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
-
-// ... (existing imports)
+import java.util.HashSet;
+import java.util.Set;
 
 public class EmergencyActivity extends AppCompatActivity {
 
@@ -36,16 +36,29 @@ public class EmergencyActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private LocationListener locationListener;
 
-    private ArrayList<String> emergencyContacts = new ArrayList<>();
+    private Set<String> emergencyContactsSet;
+    private ArrayList<String> emergencyContactsList;
+    private EditText contactEditText;
+    private ArrayAdapter<String> emergencyContactsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency);
 
-        // Add emergency contacts (phone numbers)
-        emergencyContacts.add("9373019639");
-        emergencyContacts.add("+917760943388");
+        contactEditText = findViewById(R.id.contactEditText);
+        ListView emergencyContactsListView = findViewById(R.id.emergencyContactsListView);
+        loadEmergencyContacts();
+        emergencyContactsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, emergencyContactsList);
+        emergencyContactsListView.setAdapter(emergencyContactsAdapter);
+
+        Button addContactButton = findViewById(R.id.addContactButton);
+        addContactButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addEmergencyContact();
+            }
+        });
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
@@ -81,6 +94,39 @@ public class EmergencyActivity extends AppCompatActivity {
         });
     }
 
+    private void loadEmergencyContacts() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        emergencyContactsSet = prefs.getStringSet("emergencyContacts", new HashSet<>());
+        emergencyContactsList = new ArrayList<>(emergencyContactsSet);
+    }
+
+    private void saveEmergencyContacts() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putStringSet("emergencyContacts", emergencyContactsSet);
+        editor.apply();
+    }
+
+    private void addEmergencyContact() {
+        String contactNumber = contactEditText.getText().toString().trim();
+        if (!contactNumber.isEmpty() && !emergencyContactsSet.contains(contactNumber)) {
+            emergencyContactsSet.add(contactNumber);
+            emergencyContactsList.add(contactNumber);
+            saveEmergencyContacts(); // Save the updated list
+            updateEmergencyContactsUI(); // Update UI to show the added contact
+            Toast.makeText(this, "Emergency contact added: " + contactNumber, Toast.LENGTH_SHORT).show();
+            contactEditText.getText().clear();
+        } else if (emergencyContactsSet.contains(contactNumber)) {
+            Toast.makeText(this, "Emergency contact already exists: " + contactNumber, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Please enter a valid contact number", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void updateEmergencyContactsUI() {
+        emergencyContactsAdapter.notifyDataSetChanged(); // Notify the adapter that the data set has changed
+    }
+
     private void requestLocationUpdates() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
@@ -89,31 +135,32 @@ public class EmergencyActivity extends AppCompatActivity {
     }
 
     private void sendEmergencySMS(Location location) {
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
+        if (!emergencyContactsSet.isEmpty()) {
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
 
-        // Create a Google Maps link with the user's location
-        String mapLink = "http://maps.google.com/maps?q=" + latitude + "," + longitude;
+            // Create a Google Maps link with the user's location
+            String mapLink = "http://maps.google.com/maps?q=" + latitude + "," + longitude;
 
-        // Compose the message with the location link
-        String message = "Emergency! I need help. My location: " + mapLink;
+            // Create a message with the location link
+            String message = "Emergency! I need help. My location: " + mapLink;
 
-        for (String phoneNumber : emergencyContacts) {
-            try {
-                SmsManager.getDefault().sendTextMessage(phoneNumber, null, message, null, null);
-
-                Log.d("EmergencyActivity", "SMS sent to " + phoneNumber);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e("EmergencyActivity", "Error sending SMS to " + phoneNumber);
-                // Handle SMS sending error
+            for (String phoneNumber : emergencyContactsSet) {
+                try {
+                    SmsManager.getDefault().sendTextMessage(phoneNumber, null, message, null, null);
+                    Log.d("EmergencyActivity", "SMS sent to " + phoneNumber);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e("EmergencyActivity", "Error sending SMS to " + phoneNumber + ": " + e.getMessage());
+                    Toast.makeText(this, "Error sending SMS. Please try again later.", Toast.LENGTH_SHORT).show();
+                }
             }
+
+            Toast.makeText(this, "Emergency message sent!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "No emergency contacts available. Add contacts to send messages.", Toast.LENGTH_SHORT).show();
         }
-
-        Toast.makeText(this, "Emergency message sent!", Toast.LENGTH_SHORT).show();
     }
-
-
 
     // Add onRequestPermissionsResult method
     @Override

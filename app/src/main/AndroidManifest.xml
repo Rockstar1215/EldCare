@@ -2,16 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.old_man">
-    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY"/>
+
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -22,15 +32,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Old_man"
         tools:targetApi="31">
+        <activity
+            android:name=".Magnifier.Magnifier"
+            android:exported="false" />
+
         <service
             android:name="org.jitsi.meet.sdk.ConnectionService"
             android:exported="false">
+
             <!-- Add any other necessary attributes and intent filters here -->
         </service>
-        <activity android:name=".Reminder.MainPage"
-            >
-        </activity>
 
+        <activity android:name=".Reminder.MainPage" />
         <activity
             android:name=".EmergencyActivity"
             android:exported="false" />
@@ -56,13 +69,21 @@
             </intent-filter>
         </activity>
         <activity android:name=".Reminder.Register" />
+        <activity android:name=".Reminder.My_Reminder" />
 
-        <activity android:name=".Reminder.My_Reminder">
-        </activity>
         <receiver
             android:name=".Reminder.NotifierAlarm"
             android:enabled="true"
             android:exported="false" />
+
+
+        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="ocr"/>
+
+        <!--        meta data for google admob, replace the value to your Admob App ID-->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
     </application>
 
 </manifest>

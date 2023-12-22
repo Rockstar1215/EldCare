@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 
 import androidx.core.app.NotificationCompat;
 
@@ -71,5 +73,21 @@ public class NotifierAlarm extends BroadcastReceiver {
             notificationManager.createNotificationChannel(channel);
         }
         notificationManager.notify(1, notification);
+
+        // Vibrate pattern (you can customize this pattern)
+        long[] vibrationPattern = {0, 500, 100, 600, 100, 800};
+
+        // Get the default vibration pattern
+        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        if (vibrator != null && vibrator.hasVibrator()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                // For Android O and above
+                VibrationEffect vibrationEffect = VibrationEffect.createWaveform(vibrationPattern, -1);
+                vibrator.vibrate(vibrationEffect);
+            } else {
+                // For Android Nougat and below
+                vibrator.vibrate(vibrationPattern, -1);
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- activity_emergency.xml -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -14,4 +14,31 @@
         android:textSize="18sp"
         android:layout_centerInParent="true"/>
 
+    <EditText
+        android:id="@+id/contactEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/emergencyButton"
+        android:layout_marginTop="16dp"
+        android:hint="Enter Emergency Contact Number"
+        android:inputType="phone"
+        android:minHeight="48dp" />
+
+    <Button
+        android:id="@+id/addContactButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Emergency Contact"
+        android:textSize="18sp"
+        android:layout_below="@id/contactEditText"
+        android:layout_marginTop="16dp"/>
+
+    <ListView
+        android:id="@+id/emergencyContactsListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addContactButton"
+        android:layout_marginTop="16dp"
+        android:divider="@android:color/darker_gray"
+        android:dividerHeight="1dp"/>
 </RelativeLayout>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Magnifier.TextRecognitionFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_above="@id/btn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="4">
+
+            <SurfaceView
+                android:id="@+id/surface_view"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:id="@+id/image"
+                android:layout_weight="3"
+                android:visibility="gone"/>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="88dp"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/scanned_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/scanned_text_will_appear_here"
+                    android:minHeight="48dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp" />
+            </androidx.core.widget.NestedScrollView>
+
+            <Button
+                android:id="@+id/start_scanning_btn"
+                android:layout_width="398dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+
+                android:background="@drawable/bg_rounded_corner_filled"
+                android:drawableTint="@android:color/white"
+                android:text="Start Scanning"
+                android:textColor="@android:color/white" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_layout"
+            android:layout_width="match_parent"
+            android:layout_height="74dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <Button
+                android:id="@+id/copy_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_rounded_corner_filled"
+                android:drawableLeft="@drawable/ic_copy"
+                android:drawableTint="@android:color/white"
+                android:padding="10dp"
+                android:text="Copy"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/open_image_btn"
+                android:layout_width="13dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_rounded_corner_filled"
+                android:drawableLeft="@drawable/ic_image"
+                android:drawableTint="@android:color/white"
+                android:padding="10dp"
+                android:text="Image"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/open_camera_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_rounded_corner_filled"
+                android:drawableLeft="@drawable/ic_camera"
+                android:drawableTint="@android:color/white"
+                android:padding="10dp"
+                android:text="Camera"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/share_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_rounded_corner_filled"
+                android:drawableLeft="@drawable/ic_share"
+                android:drawableTint="@android:color/white"
+                android:padding="10dp"
+                android:text="Share"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/convert_to_pdf_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_rounded_corner_filled"
+                android:drawableLeft="@drawable/ic_pdf"
+                android:drawableTint="@android:color/white"
+                android:padding="10dp"
+                android:text="PDF"
+                android:textAlignment="viewStart"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+
+            <!-- Add these buttons to your layout file -->
+
+            <Button
+                android:id="@+id/stop_scanning_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_rounded_corner_filled"
+                android:drawableTint="@android:color/white"
+                android:text="Stop Scanning"
+                android:textColor="@android:color/white"
+                android:visibility="gone" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>

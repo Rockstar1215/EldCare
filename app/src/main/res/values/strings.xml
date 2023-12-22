@@ -1,4 +1,26 @@
 <resources>
     <string name="app_name">old_man</string>
     <string name="sign_up">Sign Up</string>
+
+    <string name="capture">Capture</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="scanned_text_will_appear_here">Scanned text will appear here.</string>
+
+
+    <!--    ad ids-->
+    <string name="admob_banner_ad_id">ca-app-pub-3940256099942544/6300978111</string>
+
+    <!--    text recognition fragment ads-->
+    <string name="text_recognition_imagebtn_ad">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="text_recognition_camerabtn_ad">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="text_recognition_pdfbtn_ad">ca-app-pub-3940256099942544/1033173712</string>
+
+    <!--    qr fragment ads-->
+    <string name="qr_fragment_copy_btn_ad">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="qr_fragment_start_btn_ad">ca-app-pub-3940256099942544/1033173712</string>
+
+    <!--    magnifier fragment ads-->
+    <string name="magnifier_fragment_capture_btn_ad">ca-app-pub-3940256099942544/1033173712</string>
+
 </resources>

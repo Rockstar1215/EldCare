@@ -58,5 +58,16 @@ dependencies {
     implementation("org.jitsi.react:jitsi-meet-sdk:3.7.0") {
         isTransitive = true
     }
+// material design dependency
+    implementation("com.google.android.material:material:1.1.0")
+
+// qrcode
+    implementation("com.google.zxing:core:3.2.0")
+
+// google text recognition library
+    implementation("com.google.android.gms:play-services-vision:20.1.0")
+
+// google admob dependency
+    implementation("com.google.android.gms:play-services-ads:19.1.0")
 
 }
