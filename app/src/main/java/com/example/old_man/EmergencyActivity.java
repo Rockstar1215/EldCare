@@ -13,7 +13,6 @@ import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -26,7 +25,9 @@ import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
 
 public class EmergencyActivity extends AppCompatActivity {
 
@@ -39,7 +40,8 @@ public class EmergencyActivity extends AppCompatActivity {
     private Set<String> emergencyContactsSet;
     private ArrayList<String> emergencyContactsList;
     private EditText contactEditText;
-    private ArrayAdapter<String> emergencyContactsAdapter;
+    private EmergencyContactsAdapter emergencyContactsAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +51,25 @@ public class EmergencyActivity extends AppCompatActivity {
         contactEditText = findViewById(R.id.contactEditText);
         ListView emergencyContactsListView = findViewById(R.id.emergencyContactsListView);
         loadEmergencyContacts();
-        emergencyContactsAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, emergencyContactsList);
+        emergencyContactsAdapter = new EmergencyContactsAdapter(this, R.layout.list_item_emergency_contact, emergencyContactsList);
         emergencyContactsListView.setAdapter(emergencyContactsAdapter);
+
+        // Set choice mode for multiple selection
+        emergencyContactsListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
         Button addContactButton = findViewById(R.id.addContactButton);
         addContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addEmergencyContact();
+            }
+        });
+
+        Button deleteContactButton = findViewById(R.id.deleteContactButton);
+        deleteContactButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteSelectedContacts(emergencyContactsListView);
             }
         });
 
@@ -122,6 +135,29 @@ public class EmergencyActivity extends AppCompatActivity {
             Toast.makeText(this, "Please enter a valid contact number", Toast.LENGTH_SHORT).show();
         }
     }
+    private void deleteSelectedContacts(ListView listView) {
+        // Get the selected positions from the adapter
+        Set<Integer> selectedPositions = emergencyContactsAdapter.getSelectedPositions();
+
+        if (!selectedPositions.isEmpty()) {
+            // Iterate over the selected positions and remove contacts
+            List<String> contactsToRemove = new ArrayList<>();
+            for (Integer position : selectedPositions) {
+                contactsToRemove.add(emergencyContactsList.get(position));
+            }
+
+            emergencyContactsSet.removeAll(contactsToRemove);
+            emergencyContactsList.removeAll(contactsToRemove);
+
+            saveEmergencyContacts();
+            updateEmergencyContactsUI();
+            listView.clearChoices();
+        } else {
+            Toast.makeText(this, "Please select contacts to delete", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
     private void updateEmergencyContactsUI() {
         emergencyContactsAdapter.notifyDataSetChanged(); // Notify the adapter that the data set has changed
