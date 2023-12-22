@@ -13,6 +13,7 @@ import androidx.cardview.widget.CardView;
 import com.example.old_man.Magnifier.Magnifier;
 import com.example.old_man.Reminder.MainPage;
 import com.example.old_man.community.CommunityCall;
+import com.example.old_man.pedometer.pedometer;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Handle click for Brain Puzzle CardView
-                // openActivity(BrainPuzzleActivity.class);
+                openActivity(pedometer.class);
                 vibrate();
             }
         });

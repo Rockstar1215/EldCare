@@ -4,17 +4,21 @@
     package="com.example.old_man">
 
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
-
+    <uses-feature android:name="android.hardware.sensor.stepcounter" android:required="true" />
+    <uses-feature android:name="android.hardware.sensor.stepdetector" android:required="true"/>
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
@@ -32,6 +36,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Old_man"
         tools:targetApi="31">
+        <activity
+            android:name=".pedometer.pedometer"
+            android:exported="false" />
         <activity
             android:name=".Magnifier.Magnifier"
             android:exported="false" />
@@ -76,14 +83,12 @@
             android:enabled="true"
             android:exported="false" />
 
-
-        <meta-data android:name="com.google.android.gms.vision.DEPENDENCIES"
-            android:value="ocr"/>
-
-        <!--        meta data for google admob, replace the value to your Admob App ID-->
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="ocr" /> <!-- meta data for google admob, replace the value to your Admob App ID -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/>
+            android:value="ca-app-pub-3940256099942544~3347511713" />
     </application>
 
 </manifest>
